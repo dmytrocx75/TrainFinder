@@ -28,11 +28,10 @@ private SeatType[] seats=null;
       fields.put("date",date);
       fields.put("time",time);
 
-      Map<String,String> headers=new HashMap<>();
 //headers.put("Cookie","HTTPSERVERID=server2;_gv_lang=en; _gv_sessid=opirj8kpsbvfll2fabnn4jqv25");
       //endregion
 
-        JsonNode jsonNode=Sender.send(fields,headers,URL);
+        JsonNode jsonNode=Sender.send(fields,URL);
        JSONArray jsonArray= jsonNode.getObject().getJSONObject("data").getJSONArray("list");
 
               return mapper.readValue(jsonArray.toString(),Train[].class);
@@ -49,9 +48,8 @@ fields.put("train",number);
 fields.put("from",from);
 fields.put("to",to);
 fields.put("date",date);
-HashMap<String,String>headers=new HashMap<>();
 
-JsonNode train_node=Sender.send(fields,headers,URL);
+JsonNode train_node=Sender.send(fields,URL);
 JSONArray seat_json=train_node.getObject().getJSONObject("data").getJSONArray("types");
 
 SeatType[]seats=mapper.readValue(seat_json.toString(),SeatType[].class);

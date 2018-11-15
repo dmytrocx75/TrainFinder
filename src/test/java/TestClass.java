@@ -4,11 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.provider.CsvFileSource;
-
 import java.time.LocalDate;
-import java.util.Set;
-import java.util.TreeSet;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestClass {
@@ -17,6 +13,7 @@ static private LocalDate localDate;
 @BeforeAll
 static void Setup(){
 localDate =LocalDate.now();
+SenderBase.init();
 }
 
 
@@ -26,24 +23,25 @@ localDate =LocalDate.now();
 
 String key=arguments.getString(0);
 
-    Set<Station> file_stations=new TreeSet<Station>();
+    int station_amount=arguments.size()-1;
+   Station[] file_stations=new Station[station_amount];
 
-  //  Station[] file_stations=new Station[arguments.size()];
 
-    for(int i=1; i<arguments.size(); i++){
-        Station st=new Station();
-        st.setTitle(arguments.getString(i));
-      file_stations.add(st);
+    for(int i=0,k=1; i<station_amount; i++,k++){
+        String argument=arguments.getString(k);
+        file_stations[i]=new Station(Integer.parseInt(argument.substring(0,7)),argument.substring(7));
     }
+    Station [] app_stations=null;
+try {
+   app_stations =  Station.getStations(key); //retrieve station set from application
+}catch (Exception e){
+        System.out.println(e);fail();
+}
 
- Set<Station> app_stations=  Station.getStations(key); //retrieve station set from application
 
+assertArrayEquals(file_stations,app_stations,"Stations comparison");
 
-
- assertEquals(file_stations,app_stations);
     //   System.out.print(st+" "+station);
-
-    System.out.print("");
 
 }
 
