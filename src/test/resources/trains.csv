@@ -1,0 +1,2 @@
+from_station #, to_station #, 1|2 for odd or even date, time as hh:mm, train_1+min_cost...train_N+min_cost without '+' symbol
+2218000,2200300,2,23:00,050Л12277,035Ш,026К7267
